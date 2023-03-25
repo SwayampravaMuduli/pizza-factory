@@ -68,23 +68,25 @@ public class CustomerOrderController {
 
 			}
 			List<ToppingDto> toppings=pizzaDto.getToppings();
-			System.out.println(toppings);
+			
 			for (ToppingDto toppingDto :toppings) {
-				System.out.println(toppingDto.getName());
+				
 				
 			String toppingsName=masterToppingRepository.getToppinngs(toppingDto.getName());
-			System.out.println(toppingsName);
-			if (!pizzaDto.getToppings().equals(toppingsName)) {
-				return ResponseEntity.badRequest().body(toppingsName + "is not available");
+			
+			if(toppingsName==null) {
+				return ResponseEntity.badRequest().body(toppingDto.getName() + "is not available");
 				
 
 			}
+			
+		
 			List<SideDto> sideItems=pizzaDto.getSides();
-			System.out.println(sideItems); 
+			
 			for(SideDto sides:sideItems) {
 				String sideItemsOne=	masterSidesRepository.getSides(sides.getName());
-				if (!pizzaDto.getSides().equals(sideItemsOne)) {
-					return ResponseEntity.badRequest().body(sideItemsOne + "is not gg available");
+				if(sideItemsOne==null) {
+					return ResponseEntity.badRequest().body(sides.getName() + "is not  available");
 					
 
 				}
@@ -152,7 +154,7 @@ public class CustomerOrderController {
 				for (ToppingDto toppingDto : pizzaDto.getToppings()) {
 
 					float price = toppingDto.getPrice();
-					System.out.println(price);
+					
 					priceOne += price;
 
 				}
@@ -160,13 +162,13 @@ public class CustomerOrderController {
 			}
 
 			List<SideDto> sides = pizzaDto.getSides();
-			System.out.println(sides.toString());
+			
 			if (sides != null) {
-				System.out.println(sides);
+				
 				for (SideDto side : pizzaDto.getSides()) {
 					if (side.getName().equals("Cold Drink")) {
 						priceOne += side.getCount() * side.getPrice();
-						System.out.println(priceOne);
+						
 					} else if (side.getName().equals("Mouse cake")) {
 						priceOne += side.getCount() * side.getPrice();
 					}

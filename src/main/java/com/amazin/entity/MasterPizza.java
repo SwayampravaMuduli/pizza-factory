@@ -22,6 +22,7 @@ public class MasterPizza {
 	@Column(name = "id")
 	private int id;
 	private String name;
+	
 
 	@OneToMany(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "name_pizza", referencedColumnName = "name", nullable = true, insertable = false, updatable = false)

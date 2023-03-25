@@ -37,15 +37,11 @@ public class VendorController {
 		if(masterPizza.getName()==null) {
 			return ResponseEntity.badRequest().body("pizza must have a name");
 		}
-//		if(masterPizza.getType()==null) {
-//			return ResponseEntity.badRequest().body("pizza must have a type veg/non-veg");
-//		}
+
 		if(masterPizza.getSizeAndPrice()==null) {
 			return ResponseEntity.badRequest().body("pizza must have a size like Regular/Large/Medium and must have prices");
 		}
-//		if(masterPizza.getPrice()==null) {
-//			return ResponseEntity.badRequest().body("pizza must have a price");
-//		}
+
 		
 		masterPizza=masterPizzaRepository.save(masterPizza);
 		for(SizePrice sizePrice : masterPizza.getSizeAndPrice()) {
