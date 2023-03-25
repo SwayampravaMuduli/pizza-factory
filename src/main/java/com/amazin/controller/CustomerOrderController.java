@@ -11,34 +11,92 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.amazin.PizzaFactoryServiceApplication;
 import com.amazin.Dto.PizzaDto;
 import com.amazin.Dto.SideDto;
 import com.amazin.Dto.ToppingDto;
 import com.amazin.entity.Pizza;
 import com.amazin.entity.Sides;
 import com.amazin.entity.Topping;
+import com.amazin.repository.MasterCrustRepository;
+import com.amazin.repository.MasterPizzaRepository;
+import com.amazin.repository.MasterSidesRepository;
+import com.amazin.repository.MasterToppingsRepository;
 import com.amazin.repository.PizzaRepository;
 import com.amazin.repository.SidesRepository;
 import com.amazin.repository.ToppingRepository;
 
 @RestController
 @RequestMapping("/order")
-public class PizzaController {
+public class CustomerOrderController {
 	@Autowired
 	private PizzaRepository pizzaRepository;
 	@Autowired
 	private ToppingRepository toppingRepository;
 	@Autowired
 	private SidesRepository sidesRepository;
+	@Autowired
+	private MasterCrustRepository masterCrustRepository;
+	@Autowired
+	private MasterPizzaRepository masterPizzaRepository;
+	@Autowired
+	private MasterToppingsRepository masterToppingRepository;
+	@Autowired
+	private MasterSidesRepository masterSidesRepository;
 
 	@PostMapping("/customer")
 	public ResponseEntity<String> createPizza(@RequestBody PizzaDto pizzaDto) {
-
+		this.masterCrustRepository = (MasterCrustRepository) PizzaFactoryServiceApplication.ctx
+				.getBean((Class) MasterCrustRepository.class);
+		this.masterPizzaRepository = (MasterPizzaRepository) PizzaFactoryServiceApplication.ctx
+				.getBean((Class) MasterPizzaRepository.class);
+		this.masterToppingRepository=(MasterToppingsRepository) PizzaFactoryServiceApplication.ctx
+				.getBean((Class) MasterToppingsRepository.class);
+		this.masterSidesRepository=(MasterSidesRepository) PizzaFactoryServiceApplication.ctx
+				.getBean((Class) MasterSidesRepository.class);
 		Float priceOne = pizzaDto.getPrice();
+
 		// check if you are a customer or not
 		if (!pizzaDto.getUserType().equals("Customer")) {
 			return ResponseEntity.badRequest().body("you are not a customer to order the pizza");
 		} else {
+			String pizzaName = masterPizzaRepository.getPizza(pizzaDto.getName());
+
+			if (!pizzaDto.getName().equals(pizzaName)) {
+				return ResponseEntity.badRequest().body(pizzaName + "is not available");
+				// }
+
+			}
+			List<ToppingDto> toppings=pizzaDto.getToppings();
+			System.out.println(toppings);
+			for (ToppingDto toppingDto :toppings) {
+				System.out.println(toppingDto.getName());
+				
+			String toppingsName=masterToppingRepository.getToppinngs(toppingDto.getName());
+			System.out.println(toppingsName);
+			if (!pizzaDto.getToppings().equals(toppingsName)) {
+				return ResponseEntity.badRequest().body(toppingsName + "is not available");
+				
+
+			}
+			List<SideDto> sideItems=pizzaDto.getSides();
+			System.out.println(sideItems); 
+			for(SideDto sides:sideItems) {
+				String sideItemsOne=	masterSidesRepository.getSides(sides.getName());
+				if (!pizzaDto.getSides().equals(sideItemsOne)) {
+					return ResponseEntity.badRequest().body(sideItemsOne + "is not gg available");
+					
+
+				}
+			}
+			
+			}
+			String crustName = masterCrustRepository.getCrust(pizzaDto.getCrust());
+
+			if (!pizzaDto.getCrust().equals(crustName)) {
+				return ResponseEntity.badRequest().body(crustName + "is not available");
+
+			}
 			// Check if the pizza is vegetarian and if it has non-vegetarian toppings.
 			if (pizzaDto.getType().equals("veg")) {
 				for (ToppingDto toppingDto : pizzaDto.getToppings()) {
@@ -103,7 +161,7 @@ public class PizzaController {
 
 			List<SideDto> sides = pizzaDto.getSides();
 			System.out.println(sides.toString());
-			if (sides != null ) {
+			if (sides != null) {
 				System.out.println(sides);
 				for (SideDto side : pizzaDto.getSides()) {
 					if (side.getName().equals("Cold Drink")) {
@@ -126,9 +184,10 @@ public class PizzaController {
 				topping = toppingRepository.save(topping);
 
 			}
-			for(SideDto sideDto : pizzaDto.getSides()) {
-				Sides sidesItems=new Sides(sideDto.getId(),sideDto.getPrice(), sideDto.getName(),sideDto.getCount());
-				sidesItems=sidesRepository.save(sidesItems);
+			for (SideDto sideDto : pizzaDto.getSides()) {
+				Sides sidesItems = new Sides(sideDto.getId(), sideDto.getPrice(), sideDto.getName(),
+						sideDto.getCount());
+				sidesItems = sidesRepository.save(sidesItems);
 			}
 
 		}
