@@ -19,7 +19,8 @@ public class Sides {
 	@Column(name = "name")
 	private String name;
 	@Column(name = "count")
-    private int count;
+	private int count;
+
 	public int getId() {
 		return id;
 	}
@@ -44,8 +45,6 @@ public class Sides {
 		this.name = name;
 	}
 
-
-
 	public int getCount() {
 		return count;
 	}
@@ -66,8 +65,5 @@ public class Sides {
 	public String toString() {
 		return "Sides [id=" + id + ", price=" + price + ", name=" + name + ", count=" + count + "]";
 	}
-
-	
-	
 
 }

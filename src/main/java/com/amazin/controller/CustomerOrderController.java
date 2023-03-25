@@ -50,9 +50,9 @@ public class CustomerOrderController {
 				.getBean((Class) MasterCrustRepository.class);
 		this.masterPizzaRepository = (MasterPizzaRepository) PizzaFactoryServiceApplication.ctx
 				.getBean((Class) MasterPizzaRepository.class);
-		this.masterToppingRepository=(MasterToppingsRepository) PizzaFactoryServiceApplication.ctx
+		this.masterToppingRepository = (MasterToppingsRepository) PizzaFactoryServiceApplication.ctx
 				.getBean((Class) MasterToppingsRepository.class);
-		this.masterSidesRepository=(MasterSidesRepository) PizzaFactoryServiceApplication.ctx
+		this.masterSidesRepository = (MasterSidesRepository) PizzaFactoryServiceApplication.ctx
 				.getBean((Class) MasterSidesRepository.class);
 		Float priceOne = pizzaDto.getPrice();
 
@@ -64,34 +64,29 @@ public class CustomerOrderController {
 
 			if (!pizzaDto.getName().equals(pizzaName)) {
 				return ResponseEntity.badRequest().body(pizzaName + "is not available");
-				// }
 
 			}
-			List<ToppingDto> toppings=pizzaDto.getToppings();
-			
-			for (ToppingDto toppingDto :toppings) {
-				
-				
-			String toppingsName=masterToppingRepository.getToppinngs(toppingDto.getName());
-			
-			if(toppingsName==null) {
-				return ResponseEntity.badRequest().body(toppingDto.getName() + "is not available");
-				
+			List<ToppingDto> toppings = pizzaDto.getToppings();
 
-			}
-			
-		
-			List<SideDto> sideItems=pizzaDto.getSides();
-			
-			for(SideDto sides:sideItems) {
-				String sideItemsOne=	masterSidesRepository.getSides(sides.getName());
-				if(sideItemsOne==null) {
-					return ResponseEntity.badRequest().body(sides.getName() + "is not  available");
-					
+			for (ToppingDto toppingDto : toppings) {
+
+				String toppingsName = masterToppingRepository.getToppinngs(toppingDto.getName());
+
+				if (toppingsName == null) {
+					return ResponseEntity.badRequest().body(toppingDto.getName() + "is not available");
 
 				}
-			}
-			
+
+				List<SideDto> sideItems = pizzaDto.getSides();
+
+				for (SideDto sides : sideItems) {
+					String sideItemsOne = masterSidesRepository.getSides(sides.getName());
+					if (sideItemsOne == null) {
+						return ResponseEntity.badRequest().body(sides.getName() + "is not  available");
+
+					}
+				}
+
 			}
 			String crustName = masterCrustRepository.getCrust(pizzaDto.getCrust());
 
@@ -154,7 +149,7 @@ public class CustomerOrderController {
 				for (ToppingDto toppingDto : pizzaDto.getToppings()) {
 
 					float price = toppingDto.getPrice();
-					
+
 					priceOne += price;
 
 				}
@@ -162,13 +157,13 @@ public class CustomerOrderController {
 			}
 
 			List<SideDto> sides = pizzaDto.getSides();
-			
+
 			if (sides != null) {
-				
+
 				for (SideDto side : pizzaDto.getSides()) {
 					if (side.getName().equals("Cold Drink")) {
 						priceOne += side.getCount() * side.getPrice();
-						
+
 					} else if (side.getName().equals("Mouse cake")) {
 						priceOne += side.getCount() * side.getPrice();
 					}

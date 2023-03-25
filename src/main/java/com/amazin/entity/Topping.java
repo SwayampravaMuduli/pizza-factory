@@ -21,7 +21,6 @@ public class Topping {
 
 	@Column(name = "price")
 	private Float price;
-	
 
 	public int getId() {
 		return id;
@@ -65,17 +64,12 @@ public class Topping {
 
 	public Topping() {
 		super();
-		
+
 	}
 
 	@Override
 	public String toString() {
 		return "Topping [id=" + id + ", type=" + type + ", name=" + name + ", price=" + price + "]";
 	}
-	
-
-
-
-	
 
 }

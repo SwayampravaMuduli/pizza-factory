@@ -11,6 +11,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+
 @Entity
 @Table(name = "master_toppings")
 public class MasterToppings {
@@ -18,14 +19,11 @@ public class MasterToppings {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	
 	@Column(name = "name")
 	private String name;
-	
 
 	@Column(name = "price")
 	private Float price;
-	
 
 	public int getId() {
 		return id;
@@ -35,7 +33,6 @@ public class MasterToppings {
 		this.id = id;
 	}
 
-	
 	public String getName() {
 		return name;
 	}
@@ -51,6 +48,5 @@ public class MasterToppings {
 	public void setPrice(Float price) {
 		this.price = price;
 	}
-
 
 }

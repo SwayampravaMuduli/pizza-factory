@@ -6,6 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+
 @Entity
 @Table(name = "size_price_pizza")
 public class SizePrice {
@@ -16,30 +17,25 @@ public class SizePrice {
 	private String size;
 	@Column(name = "price")
 	private Float price;
-	@Column(name="name_pizza")
+	@Column(name = "name_pizza")
 	private String name;
-	
-	
-	
-	
-	
-	
-	
+
 	public SizePrice() {
 		super();
-		// TODO Auto-generated constructor stub
+
 	}
 
 	public String getName() {
 		return name;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
+
 	public String getSize() {
 		return size;
 	}
-	
 
 	public SizePrice(int id, String size, String name, Float price) {
 		super();
@@ -60,13 +56,13 @@ public class SizePrice {
 	public void setSize(String size) {
 		this.size = size;
 	}
+
 	public Float getPrice() {
 		return price;
 	}
+
 	public void setPrice(Float price) {
 		this.price = price;
 	}
-	
-	
 
 }
