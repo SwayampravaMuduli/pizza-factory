@@ -13,6 +13,7 @@ public class MasterCrust {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String crust;
+ 
 	public int getId() {
 		return id;
 	}
